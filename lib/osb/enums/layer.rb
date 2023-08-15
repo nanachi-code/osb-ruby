@@ -4,5 +4,5 @@ module Layer
   Pass = "Pass"
   Foreground = "Foreground"
   Overlay = "Overlay"
-  ALL = ["Background", "Fail", "Pass", "Foreground", "Overlay"]
+  ALL = %w[Background Fail Pass Foreground Overlay]
 end

@@ -13,5 +13,15 @@ module Origin
   BottomCentre = "BottomCentre"
   BottomCenter = "BottomCentre"
   BottomRight = "BottomRight"
-  ALL = ["TopLeft", "TopCentre", "TopRight", "CentreLeft", "Centre", "CentreRight", "BottomLeft", "BottomCentre", "BottomRight"]
+  ALL = %w[
+    TopLeft
+    TopCentre
+    TopRight
+    CentreLeft
+    Centre
+    CentreRight
+    BottomLeft
+    BottomCentre
+    BottomRight
+  ]
 end
