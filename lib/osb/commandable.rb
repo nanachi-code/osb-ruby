@@ -261,7 +261,7 @@ module Osb
         Internal.assert_type!(vertically, Internal::Boolean, "vertically")
 
         if horizontally && vertically
-          raise ArgumentError,
+          raise InvalidValueError,
                 "Cannot flip an object both horizontally and vertically"
         end
 
@@ -287,6 +287,13 @@ module Osb
 
       # Add a group of commands on a specific condition.
       # `#trigger` can only be called on an empty object declaration (no commands).
+      # Pass a block to this method call to specify which commands to run if
+      # the condition is met.
+      #
+      # @example
+      #   img.trigger(on: "Passing", start_time: 0, end_time: 1000) do
+      #     img.fade(start_time: 0, start_opacity: 0.5)
+      #   end
       #
       # In addition to the "implicit" player feedback via the separate
       # Pass/Fail layers, you can use one of several Trigger conditions
@@ -302,14 +309,14 @@ module Osb
       # @param [String] on indicates the trigger condition. It can be "Failing" or "Passing".
       # @param [Integer] start_time the timestamp at which the trigger becomes valid.
       # @param [Integer] end_time the timestamp at which the trigger stops being valid.
-      def trigger(on:, start_time:, end_time:, &blk)
+      def trigger(on:, start_time:, end_time:)
         self.raise_if_trigger_called!
         Internal.raise_if_invalid_start_time!(start_time)
         Internal.raise_if_invalid_end_time!(end_time)
         Internal.assert_type!(on, String, "on")
         Internal.assert_value!(on, %w[Passing Failing], "on")
 
-        raise ArgumentError, "Do not use an empty trigger." unless block_given?
+        raise InvalidValueError, "Do not use an empty trigger." unless block_given?
 
         if @commands.size > 1
           raise RuntimeError, "Do not call #trigger after any other commands."
@@ -324,9 +331,9 @@ module Osb
         @commands << command
 
         @is_in_trigger = true
-        yield self
+        yield
         unless @commands.size > 1
-          raise ArgumentError, "Do not use an empty trigger."
+          raise InvalidValueError, "Do not use an empty trigger."
         end
         @is_in_trigger = false
         @trigger_called = true

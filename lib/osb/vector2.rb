@@ -17,7 +17,7 @@ module Osb
       Internal.assert_type!(x, [Float, Integer], "y")
 
       if x.is_a?(Array)
-        raise ArgumentError, "Must be an Array of 2 numbers." if x.size != 2
+        raise InvalidValueError, "Must be an Array of 2 numbers." if x.size != 2
         @x = x[0]
         @y = x[1]
       else

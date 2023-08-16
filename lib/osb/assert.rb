@@ -4,6 +4,9 @@ module Osb
   class TypeError < StandardError
   end
 
+  class InvalidValueError < StandardError
+  end
+
   module Internal
     Boolean = [TrueClass, FalseClass]
 
@@ -28,7 +31,7 @@ module Osb
         valid = possible_types.any? { |type| arg.is_a?(type) }
         unless valid
           accepted_types = possible_types.map { |type| type.name }.join(" or ")
-          
+
           raise TypeError,
                 "Parameter #{param_name} expects type #{accepted_types}, " +
                   "got type #{arg.class.name} instead."
@@ -67,23 +70,39 @@ module Osb
         unless valid
           accepted_values = possible_values.join(" or ")
 
-          raise ArgumentError,
+          raise InvalidValueError,
                 "Parameter #{param_name} expects #{accepted_values}, " +
                   "got #{val} instead."
         end
       elsif possible_values.is_a?(Range)
         valid = arg >= possible_values.min && arg <= possible_values.max
         unless valid
-          raise ArgumentError,
+          raise InvalidValueError,
                 "Parameter #{param_name} expects value within " +
                   "#{possible_values.min} to #{possible_values.max}, " +
                   "got #{val} instead."
         end
       else
         unless arg == possible_values
-          raise ArgumentError,
+          raise InvalidValueError,
                 "Parameter #{param_name} expects #{possible_values}, " +
                   "got #{val} instead."
+        end
+      end
+    end
+
+    # @param [String] file_name
+    # @param [String, Array<String>] exts
+    def self.assert_file_name_ext!(file_name, exts)
+      if exts.is_a?(Array)
+        exts_ = exts.join("|")
+        exts__ = exts.join(" or ")
+        unless /[\w\s\d]+\.(#{exts_})/.match(file_name)
+          raise InvalidValueError, "File name must end with #{exts__}"
+        end
+      else
+        unless /[\w\s\d]+\.#{exts}/.match(file_name)
+          raise InvalidValueError, "File name must end with #{exts}"
         end
       end
     end

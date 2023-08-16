@@ -21,6 +21,7 @@ module Osb
       Internal.assert_type!(origin, String, "origin")
       Internal.assert_value!(origin, Origin::ALL, "origin")
       Internal.assert_type!(file_path, String, "file_path")
+      Internal.assert_file_name_ext!(file_path, %w[png jpg jpeg])
       if initial_position
         Internal.assert_type!(initial_position, Osb::Vector2, "initial_position")
       end

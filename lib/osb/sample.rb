@@ -23,7 +23,7 @@ module Osb
         when Osb::Layer::Pass
           3
         else
-          raise ArgumentError,
+          raise InvalidValueError,
                 "An audio sample can only exists in one of these layers: " +
                   "Background, Foreground, Fail or Pass."
         end
