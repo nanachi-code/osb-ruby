@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "osb/integer"
 require_relative "osb/numeric"
 require_relative "osb/assert"
 require_relative "osb/math"
