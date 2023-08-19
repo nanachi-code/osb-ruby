@@ -29,6 +29,14 @@ module Osb
       @b = b
     end
 
+    # Returns whether 2 colors are not equal.
+    # @param [Color] color
+    def !=(color)
+      Internal.assert_type!(color, Color, "color")
+      
+      color.r != self.r && color.g != self.g && color.b != self.b
+    end
+
     # Converts an HSL color value to RGB.
     # @param [Integer] h
     # @param [Integer] s
@@ -36,9 +44,7 @@ module Osb
     # @return [Color]
     def self.from_hsl(h, s, l)
       Internal.assert_type!(h, Integer, "h")
-
       Internal.assert_type!(s, Integer, "s")
-
       Internal.assert_type!(l, Integer, "l")
 
       h = h / 360.0

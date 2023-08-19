@@ -11,16 +11,22 @@ module Osb
     Boolean = [TrueClass, FalseClass]
 
     class TypedArray
-      attr_accessor :type
-
       # @param [Class] type
       def initialize(type)
         @type = type
       end
+
+      def name
+        "Array<#{@type.name}>"
+      end
+
+      def valid?(object)
+        object.is_a?(Array) && object.all? { |value| value.is_a?(@type) }
+      end
     end
 
     # @type [Hash{Class => Hash{Class => Object}}]
-    T = { Array => { Float => TypedArray.new(Float) } }
+    T = { Array => { Numeric => TypedArray.new(Numeric) } }
 
     # Check if supplied argument is correctly typed.
     # @param [Object] arg
@@ -28,7 +34,10 @@ module Osb
     # @param [String] param_name
     def self.assert_type!(arg, possible_types, param_name)
       if possible_types.is_a?(Array)
-        valid = possible_types.any? { |type| arg.is_a?(type) }
+        valid =
+          possible_types.any? do |type|
+            type.is_a?(TypedArray) ? type.valid?(arg) : arg.is_a?(type)
+          end
         unless valid
           accepted_types = possible_types.map { |type| type.name }.join(" or ")
 
@@ -37,7 +46,7 @@ module Osb
                   "got type #{arg.class.name} instead."
         end
       elsif possible_types.is_a?(TypedArray)
-        valid = arg.all? { |value| value.is_a?(possible_types.type) }
+        valid = possible_types.valid?(arg)
         unless valid
           raise TypeError,
                 "Parameter #{param_name} expects type Array<#{possible_types.type.name}>, " +

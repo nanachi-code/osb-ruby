@@ -163,23 +163,66 @@ module Osb
     # Returns the storyboard string.
     # @return [String]
     def to_s
-      bg_and_video_layer = @layers.bg_and_video.map { |object| object.command }
-      background_layer = @layers.background.map { |object| object.commands }
-      fail_layer = @layers.fail.map { |object| object.commands }
-      pass_layer = @layers.pass.map { |object| object.commands }
-      foreground_layer = @layers.foreground.map { |object| object.commands }
-      overlay_layer = @layers.overlay.map { |object| object.commands }
-      samples_layer = @layers.samples.map { |object| object.command }
+      bg_and_video_layer =
+        @layers.bg_and_video.map { |object| object.command }.join("\n")
+      background_layer =
+        @layers
+          .background
+          .map { |object| object.commands.join("\n") }
+          .join("\n")
+      fail_layer =
+        @layers.fail.map { |object| object.commands.join("\n") }.join("\n")
+      pass_layer =
+        @layers.pass.map { |object| object.commands.join("\n") }.join("\n")
+      foreground_layer =
+        @layers
+          .foreground
+          .map { |object| object.commands.join("\n") }
+          .join("\n")
+      overlay_layer =
+        @layers.overlay.map { |object| object.commands.join("\n") }.join("\n")
+      samples_layer = @layers.samples.map { |object| object.command }.join("\n")
 
-      osb_string = "[Events]\r\n"
+      osb_string = "[Events]\n"
       osb_string +=
-        "//Background and Video events\r\n" + bg_and_video_layer + "\r\n" +
-          "//Storyboard Layer 0 (Background)\r\n" + background_layer + "\r\n" +
-          "//Storyboard Layer 1 (Fail)\r\n" + fail_layer + "\r\n" +
-          "//Storyboard Layer 2 (Pass)\r\n" + pass_layer + "\r\n" +
-          "//Storyboard Layer 3 (Foreground)\r\n" + foreground_layer + "\r\n" +
-          "//Storyboard Layer 4 (Overlay)\r\n" + overlay_layer + "\r\n" +
-          "//Storyboard Sound Samples\r\n" + samples_layer
+        "//Background and Video events\n" + bg_and_video_layer + "\n" +
+          "//Storyboard Layer 0 (Background)\n" + background_layer + "\n" +
+          "//Storyboard Layer 1 (Fail)\n" + fail_layer + "\n" +
+          "//Storyboard Layer 2 (Pass)\n" + pass_layer + "\n" +
+          "//Storyboard Layer 3 (Foreground)\n" + foreground_layer + "\n" +
+          "//Storyboard Layer 4 (Overlay)\n" + overlay_layer + "\n" +
+          "//Storyboard Sound Samples\n" + samples_layer + "\n"
+    end
+
+    # Generate an osb or osu file for this storyboard.
+    # @param [String] out_path path to .osb or .osu file
+    # @return [void]
+    def generate(out_path)
+      Internal.assert_file_name_ext!(out_path, %w[osb osu])
+
+      case File.extname(out_path)
+      when ".osu"
+        unless File.exist?(out_path)
+          raise InvalidValueError, "Cannot find osu file."
+        end
+
+        out_osu_file = ""
+        File
+          .readlines(out_path)
+          .each do |line|
+            if line.match(/[Events]/)
+              out_osu_file += self.to_s
+            else
+              out_osu_file += line
+            end
+          end
+
+        File.new(out_path, "w").write(out_osu_file)
+      when ".osb"
+        File.new(out_path, "w").write(self.to_s)
+      else
+        raise InvalidValueError, "Not osu or osb file." # should not be here
+      end
     end
   end
 end

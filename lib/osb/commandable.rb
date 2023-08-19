@@ -31,80 +31,96 @@ module Osb
 
       # Change the opacity of the object (how transparent it is).
       # @param [Integer] start_time
-      # @param [Integer, nil] end_time
+      # @param [Integer] end_time
       # @param [Integer] easing
-      # @param [Float] start_opacity
-      # @param [Float, nil] end_opacity
+      # @param [Numeric] start_opacity
+      # @param [Numeric] end_opacity
       def fade(
         start_time:,
-        end_time: nil,
+        end_time: start_time,
         easing: Easing::Linear,
         start_opacity:,
-        end_opacity: nil
+        end_opacity: start_opacity
       )
         self.raise_if_trigger_called!
         Internal.raise_if_invalid_start_time!(start_time)
-        Internal.raise_if_invalid_end_time!(end_time) if end_time
+        Internal.raise_if_invalid_end_time!(end_time)
         Internal.raise_if_invalid_easing!(easing)
-        Internal.assert_type!(start_opacity, [Float, Integer], "start_opacity")
-        if end_opacity
-          Internal.assert_type!(end_opacity, [Float, Integer], "end_opacity")
-        end
+        Internal.assert_type!(start_opacity, Numeric, "start_opacity")
+        Internal.assert_type!(end_opacity, Numeric, "end_opacity")
         Internal.assert_value!(start_opacity, 0..1, "start_opacity")
-        Internal.assert_value!(end_opacity, 0..1, "end_opacity") if end_opacity
+        Internal.assert_value!(end_opacity, 0..1, "end_opacity")
 
-        end_time_ = "" if !end_time || start_time == end_time
+        end_time = "" if start_time == end_time
         tabs = " " * self.tab_level
         command = "#{tabs}F,#{start_time},#{end_time},#{start_opacity}"
-        command += ",#{end_opacity}" if end_opacity
+        command += ",#{end_opacity}" if end_opacity != start_opacity
         @commands << command
       end
 
       # Move the object to a new position in the play area.
       # @param [Integer] start_time
-      # @param [Integer, nil] end_time
+      # @param [Integer] end_time
       # @param [Integer] easing
-      # @param [Osb::Vector2] start_position
-      # @param [Osb::Vector2, nil] end_position
+      # @param [Osb::Vector2, Array<Numeric>] start_position
+      # @param [Osb::Vector2, Array<Numeric>] end_position
       def move(
         start_time:,
-        end_time: nil,
+        end_time: start_time,
         easing: Easing::Linear,
         start_position:,
-        end_position: nil
+        end_position: start_position
       )
         self.raise_if_trigger_called!
         Internal.raise_if_invalid_start_time!(start_time)
-        Internal.raise_if_invalid_end_time!(end_time) if end_time
+        Internal.raise_if_invalid_end_time!(end_time)
         Internal.raise_if_invalid_easing!(easing)
-        Internal.assert_type!(start_position, Osb::Vector2, "start_position")
-        if end_position
-          Internal.assert_type!(end_position, Osb::Vector2, "end_position")
+        Internal.assert_type!(
+          start_position,
+          [Osb::Vector2, T[Array][Numeric]],
+          "start_position"
+        )
+        Internal.assert_type!(
+          end_position,
+          [Osb::Vector2, T[Array][Numeric]],
+          "end_position"
+        )
+        if start_position.is_a?(Array)
+          start_position = Osb::Vector2.new(start_position)
         end
-
-        end_time_ = "" if !end_time || start_time == end_time
+        if end_position.is_a?(Array)
+          end_position = Osb::Vector2.new(end_position)
+        end
+        end_time = "" if start_time == end_time
         tabs = " " * self.tab_level
         command =
           "#{tabs}M,#{start_time},#{end_time},#{start_position.x},#{start_position.y}"
-        command += ",#{end_position.x},#{end_position.y}" if end_position
+        command += ",#{end_position.x},#{end_position.y}" if end_position !=
+          start_position
         @commands << command
       end
 
       # Move the object along the x axis.
       # @param [Integer] start_time
-      # @param [Integer, nil] end_time
+      # @param [Integer] end_time
       # @param [Integer] easing
-      # @param [Float, Integer] start_x
-      # @param [Float, Integer, nil] end_x
-      def move_x(start_time:, end_time: nil, easing:, start_x:, end_x: nil)
+      # @param [Numeric] start_x
+      # @param [Numeric] end_x
+      def move_x(
+        start_time:,
+        end_time: start_time,
+        easing: Easing::Linear,
+        start_x:,
+        end_x: start_x
+      )
         self.raise_if_trigger_called!
         Internal.raise_if_invalid_start_time!(start_time)
-        Internal.raise_if_invalid_end_time!(end_time) if end_time
+        Internal.raise_if_invalid_end_time!(end_time)
         Internal.raise_if_invalid_easing!(easing)
-        Internal.assert_type!(start_x, [Float, Integer], "start_x")
-        Internal.assert_type!(end_x, [Float, Integer], "end_x") if end_x
+        Internal.assert_type!(start_x, Numeric, "start_x")
+        Internal.assert_type!(end_x, Numeric, "end_x")
 
-        end_time_ = "" if !end_time || start_time == end_time
+        end_time = "" if start_time == end_time
         tabs = " " * self.tab_level
         command = "#{tabs}MX,#{start_time},#{end_time},#{start_x}"
         command += ",#{end_x}" if end_x
@@ -113,138 +129,145 @@ module Osb
 
       # Move the object along the y axis.
       # @param [Integer] start_time
-      # @param [Integer, nil] end_time
+      # @param [Integer] end_time
       # @param [Integer] easing
-      # @param [Float, Integer] start_y
-      # @param [Float, Integer, nil] end_y
-      def move_y(start_time:, end_time: nil, easing:, start_y:, end_y: nil)
+      # @param [Numeric] start_y
+      # @param [Numeric] end_y
+      def move_y(
+        start_time:,
+        end_time: start_time,
+        easing: Easing::Linear,
+        start_y:,
+        end_y: start_y
+      )
         self.raise_if_trigger_called!
         Internal.raise_if_invalid_start_time!(start_time)
         Internal.raise_if_invalid_end_time!(end_time) if end_time
         Internal.raise_if_invalid_easing!(easing)
-        Internal.assert_type!(start_y, [Float, Integer], "start_y")
-        Internal.assert_type!(end_y, [Float, Integer], "end_y") if end_y
+        Internal.assert_type!(start_y, Numeric, "start_y")
+        Internal.assert_type!(end_y, Numeric, "end_y")
 
-        end_time_ = "" if !end_time || start_time == end_time
+        end_time = "" if start_time == end_time
         tabs = " " * self.tab_level
         command = "#{tabs}MY,#{start_time},#{end_time},#{start_y}"
-        command += ",#{end_y}" if end_y
+        command += ",#{end_y}" if end_y != start_y
         @commands << command
       end
 
-      # Change the size of the object relative to its original size.
-      # The scaling is affected by the object's origin
+      # Change the size of the object relative to its original size. Will scale
+      # seperatedly if given +Vector2+s or +Array<Numeric>+. The scaling is
+      # affected by the object's origin
       # @param [Integer] start_time
-      # @param [Integer, nil] end_time
+      # @param [Integer] end_time
       # @param [Integer] easing
-      # @param [Float, Integer] start_scale
-      # @param [Float, Integer, nil] end_scale
+      # @param [Numeric, Osb::Vector2, Array<Numeric>] start_scale
+      # @param [Numeric, Osb::Vector2, Array<Numeric>] end_scale
       def scale(
         start_time:,
-        end_time: nil,
-        easing:,
-        start_scale:,
-        end_scale: nil
-      )
-        self.raise_if_trigger_called!
-        Internal.raise_if_invalid_start_time!(start_time)
-        Internal.raise_if_invalid_end_time!(end_time) if end_time
-        Internal.raise_if_invalid_easing!(easing)
-        Internal.assert_type!(start_scale, [Float, Integer], "start_scale")
-        if end_scale
-          Internal.assert_type!(end_scale, [Float, Integer], "end_scale")
-        end
-
-        end_time_ = "" if !end_time || start_time == end_time
-        tabs = " " * self.tab_level
-        command = "#{tabs}S,#{start_time},#{end_time},#{start_scale}"
-        command += ",#{end_scale}" if end_scale
-        @commands << command
-      end
-
-      # Change the size of the object relative to its original size. X and Y scale seperately.
-      # The scaling is affected by the object's origin.
-      # @param [Integer] start_time
-      # @param [Integer, nil] end_time
-      # @param [Integer] easing
-      # @param [Osb::Vector2] start_scale
-      # @param [Osb::Vector2, nil] end_scale
-      def vector_scale(
-        start_time:,
-        end_time: nil,
+        end_time: start_time,
         easing: Easing::Linear,
-        start_position:,
-        end_scale: nil
+        start_scale:,
+        end_scale: start_scale
       )
         self.raise_if_trigger_called!
         Internal.raise_if_invalid_start_time!(start_time)
         Internal.raise_if_invalid_end_time!(end_time) if end_time
         Internal.raise_if_invalid_easing!(easing)
-        Internal.assert_type!(start_scale, Osb::Vector2, "start_scale")
-        Internal.assert_type!(end_scale, Osb::Vector2, "end_scale") if end_scale
+        Internal.assert_type!(
+          start_scale,
+          [Numeric, T[Array][Numeric], Osb::Vector2],
+          "start_scale"
+        )
+        Internal.assert_type!(
+          end_scale,
+          [Numeric, T[Array][Numeric], Osb::Vector2],
+          "end_scale"
+        )
 
-        end_time_ = "" if !end_time || start_time == end_time
+        end_time = "" if start_time == end_time
         tabs = " " * self.tab_level
-        command =
-          "#{tabs}V,#{start_time},#{end_time},#{start_scale.x},#{start_scale.y}"
-        command += ",#{end_scale.x},#{end_scale.y}" if end_scale
-        @commands << command
+
+        if start_scale.is_a?(Numeric)
+          unless end_scale.is_a?(Numeric)
+            raise InvalidValueError,
+                  "start_scale and end_scale must be either both Numeric values or Vector2-like values."
+          end
+          command = "#{tabs}S,#{start_time},#{end_time},#{start_scale}"
+          command += ",#{end_scale}" if end_scale != start_scale
+          @commands << command
+        else
+          if end_scale.is_a?(Numeric)
+            raise InvalidValueError,
+                  "start_scale and end_scale must be either both Numeric values or Vector2-like values."
+          end
+
+          if start_scale.is_a?(Array)
+            start_scale = Osb::Vector2.new(start_scale)
+          end
+
+          end_scale = Osb::Vector2.new(end_scale) if end_scale.is_a?(Array)
+
+          command =
+            "#{tabs}V,#{start_time},#{end_time},#{start_scale.x},#{start_scale.y}"
+          command += ",#{end_scale.x},#{end_scale.y}" if end_scale
+          @commands << command
+        end
       end
 
       # Rotate the object around its origin.
       # @param [Integer] start_time
-      # @param [Integer, nil] end_time
+      # @param [Integer] end_time
       # @param [Integer] easing
-      # @param [Float] start_rotate
-      # @param [Float, nil] end_rotate
+      # @param [Float] start_angle start angle in radians.
+      # @param [Float] end_angle end angle in radians.
       def rotate(
         start_time:,
-        end_time: nil,
+        end_time: start_time,
         easing: Easing::Linear,
-        start_rotate:,
-        end_rotate: nil
+        start_angle:,
+        end_angle: start_angle
       )
         self.raise_if_trigger_called!
         Internal.raise_if_invalid_start_time!(start_time)
-        Internal.raise_if_invalid_end_time!(end_time) if end_time
+        Internal.raise_if_invalid_end_time!(end_time)
         Internal.raise_if_invalid_easing!(easing)
-        Internal.assert_type!(start_rotate, [Float, Integer], "start_rotate")
-        if end_rotate
-          Internal.assert_type!(end_rotate, [Float, Integer], "end_rotate")
-        end
+        Internal.assert_type!(start_angle, Numeric, "start_angle")
+        Internal.assert_type!(end_angle, Numeric, "end_angle")
 
-        end_time_ = "" if !end_time || start_time == end_time
+        end_time = "" if start_time == end_time
         tabs = " " * self.tab_level
-        command = "#{tabs}R,#{start_time},#{end_time},#{start_rotate}"
-        command += ",#{end_rotate}" if end_rotate
+        command = "#{tabs}R,#{start_time},#{end_time},#{start_angle}"
+        command += ",#{end_angle}" if end_angle != start_angle
         @commands << command
       end
 
       # The virtual light source colour on the object. The colours of the pixels on the object are determined subtractively.
       # @param [Integer] start_time
-      # @param [Integer, nil] end_time
+      # @param [Integer] end_time
       # @param [Integer] easing
       # @param [Osb::Color] start_color
-      # @param [Osb::Color, nil] end_color
+      # @param [Osb::Color] end_color
       def color(
         start_time:,
-        end_time: nil,
+        end_time: start_time,
         easing: Easing::Linear,
         start_color:,
-        end_color: nil
+        end_color: start_color
       )
         self.raise_if_trigger_called!
         Internal.raise_if_invalid_start_time!(start_time)
-        Internal.raise_if_invalid_end_time!(end_time) if end_time
+        Internal.raise_if_invalid_end_time!(end_time)
         Internal.raise_if_invalid_easing!(easing)
         Internal.assert_type!(start_color, Osb::Color, "start_color")
-        Internal.assert_type!(end_color, Osb::Color, "end_color") if end_color
+        Internal.assert_type!(end_color, Osb::Color, "end_color")
 
-        end_time_ = "" if !end_time || start_time == end_time
+        end_time = "" if start_time == end_time
         tabs = " " * self.tab_level
         command =
           "#{tabs}C,#{start_time},#{end_time},#{start_color.r},#{start_color.g},#{start_color.b}"
-        command += ",#{end_color.r},#{end_color.g},#{end_color.b}" if end_color
+        if end_color != start_color
+          command += ",#{end_color.r},#{end_color.g},#{end_color.b}"
+        end
         @commands << command
       end
 
@@ -262,17 +285,20 @@ module Osb
 
         if horizontally && vertically
           raise InvalidValueError,
-                "Cannot flip an object both horizontally and vertically"
+                "Cannot flip an object both horizontally and vertically."
+        end
+        if !horizontally && !vertically
+          raise InvalidValueError, "Specify a direction to flip."
         end
 
         direction = horizontally ? "H" : "V"
-        end_time_ = "" if !end_time || start_time == end_time
+        end_time = "" if start_time == end_time
         tabs = " " * self.tab_level
         command = "#{tabs}P,#{start_time},#{end_time},#{direction}"
         @commands << command
       end
 
-      # Use additive-colour blending instead of alpha-blending.
+      # Use additive-color blending instead of alpha-blending.
       # @param [Integer] start_time
       # @param [Integer] end_time
       def additive_color_blending(start_time:, end_time:)
@@ -316,7 +342,9 @@ module Osb
         Internal.assert_type!(on, String, "on")
         Internal.assert_value!(on, %w[Passing Failing], "on")
 
-        raise InvalidValueError, "Do not use an empty trigger." unless block_given?
+        unless block_given?
+          raise InvalidValueError, "Do not use an empty trigger."
+        end
 
         if @commands.size > 1
           raise RuntimeError, "Do not call #trigger after any other commands."
@@ -331,7 +359,7 @@ module Osb
         @commands << command
 
         @is_in_trigger = true
-        yield
+        yield self
         unless @commands.size > 1
           raise InvalidValueError, "Do not use an empty trigger."
         end

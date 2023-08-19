@@ -34,27 +34,24 @@ module Osb
         Internal.assert_type!(initial_position, Vector2, "initial_position")
       end
 
-      Internal.assert_type!(frame_count, Integer, "frame_count") if frame_count
-
-      Internal.assert_type!(frame_delay, Integer, "frame_delay") if frame_delay
-
+      Internal.assert_type!(frame_count, Integer, "frame_count")
+      Internal.assert_type!(frame_delay, Integer, "frame_delay")
       Internal.assert_type!(repeat, Internal::Boolean, "repeat")
 
       @layer = layer
 
       first_command = "Animation,#{layer},#{origin},\"#{file_path}\""
-      first_command +=
-        ",#{initial_position.x},#{initial_position.y}" if initial_position
-      first_command += ",#{frame_count}" if frame_count
-      first_command += ",#{frame_delay}" if frame_delay
+      if initial_position
+        first_command += ",#{initial_position.x},#{initial_position.y}"
+      else
+        first_command += ",,"
+      end
+      first_command += ",#{frame_count}"
+      first_command += ",#{frame_delay}"
       looptype = repeat ? "LoopForever" : "LoopOnce"
       first_command += ",#{type}" if repeat
-      # @type [String]
-      @commands = first_command
-    end
-
-    def to_s
-      @commands.to_s
+      # @type [Array<String>]
+      @commands = [first_command]
     end
   end
 end

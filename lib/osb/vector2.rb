@@ -9,15 +9,15 @@ module Osb
     # @!attribute [rw] y
     #   @return y coordinate of this vector
 
-    # @param [Float, Integer, Array<Float, Integer>] x
+    # @param [Numeric, Array<Numeric>] x
     #   x coordinate of this +Vector2+, or an +Array+ of 2 numbers.
-    # @param [Float, Integer] y x coordinate of this +Vector2+
+    # @param [Numeric] y y coordinate of this +Vector2+
     def initialize(x = 0, y = 0)
-      Internal.assert_type!(x, [Float, Integer, Internal::T[Array][Float]], "x")
-      Internal.assert_type!(x, [Float, Integer], "y")
+      Internal.assert_type!(x, [Numeric, Internal::T[Array][Numeric]], "x")
+      Internal.assert_type!(y, Numeric, "y")
 
       if x.is_a?(Array)
-        raise InvalidValueError, "Must be an Array of 2 numbers." if x.size != 2
+        raise InvalidValueError, "Must be an Array of 2 Numeric values." if x.size != 2
         @x = x[0]
         @y = x[1]
       else
@@ -48,6 +48,13 @@ module Osb
     def ==(vector)
       Internal.assert_type!(vector, Vector2, "vector")
       Math.fuzzy_equal(self.x, vector.x) && Math.fuzzy_equal(self.y, vector.y)
+    end
+
+    # Returns whether two +Vector2+ are not equal within tolerance
+    # @param [Vector2] vector
+    # @return [Boolean]
+    def !=(vector)
+      !(self == vector)
     end
 
     # Makes a copy of this +Vector2+.

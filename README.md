@@ -5,6 +5,13 @@ A simple osu! storyboard framework written in Ruby.
 
 ## Usage
 
+Create a storyboard container.
+```rb
+require "osb"
+
+sb = Osb::Storyboard.new
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/nanachi-code/osb-ruby.

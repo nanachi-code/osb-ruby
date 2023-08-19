@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "osb/integer"
+require_relative "osb/numeric"
 require_relative "osb/assert"
 require_relative "osb/math"
 require_relative "osb/vector2"
@@ -15,7 +15,6 @@ require_relative "osb/sample"
 require_relative "osb/video"
 require_relative "osb/background"
 require_relative "osb/storyboard"
-require_relative "osb/build"
 
 module Osb
   VERSION = "1.0.0"

@@ -23,7 +23,11 @@ module Osb
       Internal.assert_type!(file_path, String, "file_path")
       Internal.assert_file_name_ext!(file_path, %w[png jpg jpeg])
       if initial_position
-        Internal.assert_type!(initial_position, Osb::Vector2, "initial_position")
+        Internal.assert_type!(
+          initial_position,
+          Osb::Vector2,
+          "initial_position"
+        )
       end
 
       @layer = layer
@@ -32,12 +36,8 @@ module Osb
       if initial_position
         first_command += ",#{initial_position.x},#{initial_position.y}"
       end
-      # @type [String]
-      @commands = first_command
-    end
-
-    def to_s
-      @commands.to_s
+      # @type [Array<String>]
+      @commands = [first_command]
     end
   end
 end
