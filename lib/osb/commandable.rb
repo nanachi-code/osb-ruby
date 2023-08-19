@@ -4,21 +4,21 @@ module Osb
   module Internal
     # @param [Integer] time
     # @return [void]
-    # @private
+    # @api private
     def self.raise_if_invalid_start_time!(time)
       Internal.assert_type!(time, Integer, "start_time")
     end
 
     # @param [Integer] time
     # @return [void]
-    # @private
+    # @api private
     def self.raise_if_invalid_end_time!(time)
       Internal.assert_type!(time, Integer, "end_time")
     end
 
     # @param [Integer] easing
     # @return [void]
-    # @private
+    # @api private
     def self.raise_if_invalid_easing!(easing)
       Internal.assert_type!(easing, Integer, "easing")
       Internal.assert_value!(easing, Easing::ALL, "easing")

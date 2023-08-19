@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module Osb
-  # @private
+  # @api private
   module Internal
-    # @private
+    # @api private
     class LayerManager
       attr_reader :background,
                   :foreground,
