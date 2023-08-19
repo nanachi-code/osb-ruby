@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = "osb"
-  s.version = "1.0.2"
+  s.version = "1.0.0"
   s.authors = "Dinh Vu"
   s.email = "dinhvu2509@gmail.com"
 
