@@ -49,8 +49,8 @@ module Osb
       first_command += ",#{frame_delay}" if frame_delay
       looptype = repeat ? "LoopForever" : "LoopOnce"
       first_command += ",#{type}" if repeat
-      # @type [Array<String>]
-      @commands = [first_command]
+      # @type [String]
+      @commands = first_command
     end
 
     def to_s

@@ -32,8 +32,8 @@ module Osb
       if initial_position
         first_command += ",#{initial_position.x},#{initial_position.y}"
       end
-      # @type [Array<String>]
-      @commands = [first_command]
+      # @type [String]
+      @commands = first_command
     end
 
     def to_s

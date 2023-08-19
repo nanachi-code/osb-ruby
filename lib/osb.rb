@@ -17,9 +17,5 @@ require_relative "osb/background"
 require_relative "osb/storyboard"
 
 module Osb
-  # @param [String] out_path
-  # @param [Storyboard] storyboard
-  def self.build(storyboard, out_path)
-    File.write(storyboard.commands, out_path)
-  end
+  VERSION = "1.0.0"
 end

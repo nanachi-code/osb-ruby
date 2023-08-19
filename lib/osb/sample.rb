@@ -1,6 +1,6 @@
 module Osb
   class Sample
-    attr_reader :layer
+    attr_reader :command
 
     # @param [Integer] time the timestamp that the sound should start playing.
     # @param [String] layer the layer you want the sound to be on.
@@ -11,7 +11,6 @@ module Osb
       Internal.assert_value!(layer, Layer::ALL, "layer")
       Internal.assert_type!(file_path, String, "file_path")
 
-      @layer = layer
       layer_ =
         case layer
         when Osb::Layer::Background
@@ -28,7 +27,7 @@ module Osb
                   "Background, Foreground, Fail or Pass."
         end
 
-      @commands = ["Sample,#{time},#{layer_},\"#{file_path}}\",#{volume}"]
+      @command = "Sample,#{time},#{layer_},\"#{file_path}}\",#{volume}"
     end
   end
 end
