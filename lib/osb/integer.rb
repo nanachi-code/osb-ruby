@@ -1,4 +1,5 @@
 class Integer
+  # Does nothing. Just a way to tell people it's represented in milliseconds.
   def ms
     self
   end
