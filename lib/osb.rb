@@ -15,6 +15,7 @@ require_relative "osb/sample"
 require_relative "osb/video"
 require_relative "osb/background"
 require_relative "osb/storyboard"
+require_relative "osb/build"
 
 module Osb
   VERSION = "1.0.0"
