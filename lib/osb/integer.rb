@@ -12,7 +12,7 @@ class Integer
   end
 
   # Convert from percentage to float.
-  # @return [Integer]
+  # @return [Float]
   def percent
     self / 100.0
   end

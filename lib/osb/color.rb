@@ -70,6 +70,7 @@ module Osb
       Color.new((r * 255).round, (g * 255).round, (b * 255).round)
     end
 
+    # @api private
     # @param [Float] p
     # @param [Float] q
     # @param [Float] t_
