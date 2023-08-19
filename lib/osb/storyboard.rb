@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module Osb
+  # @private
   module Internal
+    # @private
     class LayerManager
       attr_reader :background,
                   :foreground,
@@ -69,6 +71,7 @@ module Osb
   # +Osb::Storyboard+ object, but we recommend you to split the project into multiple
   # +Osb::Group+ so it will be easier to manage.
   class Group
+    # @api private
     attr_reader :layers
 
     def initialize
@@ -116,6 +119,7 @@ module Osb
   # to the storyboard instance, or through an intermediate group. A group can
   # have multiple nested groups in itself.
   class Storyboard
+    # @api private
     attr_reader :layers
 
     def initialize

@@ -3,8 +3,9 @@
 module Osb
   # A still image.
   class Sprite
+    # @api private
     attr_reader :commands, :layer
-    include Internal::Commandable
+    include Commandable
 
     # @param [String] layer the layer the object appears on.
     # @param [String] origin where on the image should osu! consider that image's origin (coordinate) to be.

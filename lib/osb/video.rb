@@ -1,6 +1,7 @@
 module Osb
   # A video.
   class Video
+    # @api private
     attr_reader :commands, :layer
 
     # @param [String] file_path location of the background image relative to the beatmap directory.

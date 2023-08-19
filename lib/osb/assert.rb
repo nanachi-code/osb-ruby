@@ -1,15 +1,20 @@
 # frozen_string_literal: true
 
 module Osb
+  # @private
   class TypeError < StandardError
   end
 
+  # @private
   class InvalidValueError < StandardError
   end
 
+  # @private
   module Internal
+    # @private
     Boolean = [TrueClass, FalseClass]
 
+    # @private
     class TypedArray
       # @param [Class] type
       def initialize(type)
@@ -25,6 +30,7 @@ module Osb
       end
     end
 
+    # @private
     # @type [Hash{Class => Hash{Class => Object}}]
     T = { Array => { Numeric => TypedArray.new(Numeric) } }
 
@@ -32,6 +38,8 @@ module Osb
     # @param [Object] arg
     # @param [BasicObject, Array, TypedArray] possible_types
     # @param [String] param_name
+    # @return [void]
+    # @private
     def self.assert_type!(arg, possible_types, param_name)
       if possible_types.is_a?(Array)
         valid =
@@ -66,6 +74,8 @@ module Osb
     # @param [Object] arg
     # @param [BasicObject, Array, Range] possible_values
     # @param [String] param_name
+    # @return [void]
+    # @private
     def self.assert_value!(arg, possible_values, param_name)
       val =
         if arg.is_a?(String) && arg.empty?
@@ -100,8 +110,10 @@ module Osb
       end
     end
 
+    # Ensure the file name extenstion is correct.
     # @param [String] file_name
     # @param [String, Array<String>] exts
+    # @private
     def self.assert_file_name_ext!(file_name, exts)
       if exts.is_a?(Array)
         exts_ = exts.join("|")

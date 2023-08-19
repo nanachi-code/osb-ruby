@@ -1,5 +1,6 @@
 module Osb
   class Sample
+    # @api private
     attr_reader :command
 
     # @param [Integer] time the timestamp that the sound should start playing.
