@@ -1,7 +1,13 @@
-# osu-ruby
+# osb
 A simple osu! storyboard framework written in Ruby.
 
 ## Installation
+
+osb requires Ruby 2.6+.
+
+```sh
+gem install osb
+```
 
 ## Usage
 
