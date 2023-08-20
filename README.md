@@ -14,7 +14,7 @@ gem install osb
 Create a storyboard container:
 ```rb
 require "osb"
-using Osb
+include Osb
 sb = Storyboard.new
 ```
 
