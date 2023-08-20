@@ -40,6 +40,8 @@ Generate your storyboard file:
 sb.generate("path/to/your_storyboard_file.osb")
 ```
 
+Full documentation is available at https://rubydoc.info/gems/osb/index.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/nanachi-code/osb-ruby.
