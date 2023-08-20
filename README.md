@@ -11,16 +11,16 @@ gem install osb
 
 ## Usage
 
-Create a storyboard container.
+Create a storyboard container:
 ```rb
 require "osb"
-
-sb = Osb::Storyboard.new
+using Osb
+sb = Storyboard.new
 ```
 
 Create a static image:
 ```rb
-sp = Osb::Sprite.new(file_path: "test.png")
+sp = Sprite.new(file_path: "test.png")
 ```
 
 Describe what it does:
