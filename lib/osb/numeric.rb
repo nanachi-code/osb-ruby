@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Numeric
   # The degrees method is used to convert from degrees to radians.
   # @return [Float]

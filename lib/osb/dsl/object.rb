@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Osb
   # @private
   def raise_unless_inside_storyboard!
