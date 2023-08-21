@@ -3,7 +3,7 @@
 module Osb
   # A still image.
   class Sprite
-    # @api private
+    # @private
     attr_reader :commands, :layer
     include Commandable
 

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module Osb
-  # @api private
+  # @private
   module Internal
-    # @api private
+    # @private
     class LayerManager
       attr_reader :background,
                   :foreground,
@@ -71,7 +71,7 @@ module Osb
   # +Osb::Storyboard+ object, but we recommend you to split the project into multiple
   # +Osb::Group+ so it will be easier to manage.
   class Group
-    # @api private
+    # @private
     attr_reader :layers
 
     def initialize
@@ -115,11 +115,11 @@ module Osb
     end
   end
 
-  # Represent a osu! storyboard. Each sprite or animation can be added directly
+  # Represent an osu! storyboard. Each sprite or animation can be added directly
   # to the storyboard instance, or through an intermediate group. A group can
   # have multiple nested groups in itself.
   class Storyboard
-    # @api private
+    # @private
     attr_reader :layers
 
     def initialize

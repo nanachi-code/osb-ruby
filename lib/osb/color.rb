@@ -11,36 +11,52 @@ module Osb
     # @attribute [rw] b
     #   @return Blue value.
 
-    # @param [Integer] r red value
+    # @param [Integer, String, Array<Integer>] r red value, a hex +String+, 
+    #   or an +Array+ of 3 +{Integer}+s.
     # @param [Integer] g green value
     # @param [Integer] b blue value
-    def initialize(r, g, b)
-      Internal.assert_type!(r, Integer, "r")
-      Internal.assert_value!(r, 0..255, "r")
+    def initialize(r, g = nil, b = nil)
+      Internal.assert_type!(
+        r,
+        [Integer, String, Internal::T[Array][Integer]],
+        "r"
+      )
+      if r.is_a?(Array)
+        if r.size != 3
+          raise InvalidValueError, "Must be an Array of 3 Integers."
+        end
+        @r = r[0]
+        @g = r[1]
+        @b = r[2]
+      elsif r.is_a?(String)
+        Color.from_hex(r)
+      else
+        Internal.assert_value!(r, 0..255, "r")
 
-      Internal.assert_type!(g, Integer, "g")
-      Internal.assert_value!(g, 0..255, "g")
+        Internal.assert_type!(g, Integer, "g")
+        Internal.assert_value!(g, 0..255, "g")
 
-      Internal.assert_type!(b, Integer, "b")
-      Internal.assert_value!(b, 0..255, "b")
+        Internal.assert_type!(b, Integer, "b")
+        Internal.assert_value!(b, 0..255, "b")
 
-      @r = r
-      @g = g
-      @b = b
+        @r = r
+        @g = g
+        @b = b
+      end
     end
 
     # Returns whether 2 colors are not equal.
     # @param [Color] color
     def !=(color)
       Internal.assert_type!(color, Color, "color")
-      
+
       color.r != self.r && color.g != self.g && color.b != self.b
     end
 
     # Converts an HSL color value to RGB.
-    # @param [Integer] h
-    # @param [Integer] s
-    # @param [Integer] l
+    # @param [Integer] hue
+    # @param [Integer] saturation
+    # @param [Integer] lightness
     # @return [Color]
     def self.from_hsl(h, s, l)
       Internal.assert_type!(h, Integer, "h")
@@ -70,7 +86,7 @@ module Osb
       Color.new((r * 255).round, (g * 255).round, (b * 255).round)
     end
 
-    # @api private
+    # @private
     # @param [Float] p
     # @param [Float] q
     # @param [Float] t_
@@ -84,7 +100,7 @@ module Osb
       return p
     end
 
-    # Create a Color object from hex string.
+    # Create a +{Color}+ object from hex string.
     # @param [String] hex
     # @return [Color]
     def self.from_hex(hex)
@@ -94,5 +110,24 @@ module Osb
       components = hex.scan(/.{2}/)
       components.collect { |component| component.to_i(16) }
     end
+  end
+
+  # Create a new rgb +{Color}+.
+  # @param [Integer, String, Array<Integer>] r red value, a hex +String+, 
+  #   or an +Array+ of 3 +{Integer}+s.
+  # @param [Integer] g green value
+  # @param [Integer] b blue value
+  # @return [Color]
+  def rgb(r, g = nil, b = nil)
+    Color.new(r, g, b)
+  end
+
+  # Create a new hsl +{Color}+.
+  # @param [Integer] hue
+  # @param [Integer] saturation
+  # @param [Integer] lightness
+  # @return [Color]
+  def hsl(h, s, l)
+    Color.from_hsl(h, s, l)
   end
 end

@@ -1,7 +1,7 @@
 module Osb
   # Beatmap's background.
   class Background
-    # @api private
+    # @private
     attr_reader :command
 
     # @param [String] file_name location of the background image relative to the beatmap directory.

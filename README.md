@@ -3,8 +3,7 @@ A simple osu! storyboard framework written in Ruby.
 
 ## Installation
 
-osb requires Ruby 2.6+.
-
+Install with Gem:
 ```sh
 gem install osb
 ```
@@ -38,6 +37,20 @@ sb << sp
 Generate your storyboard file:
 ```rb
 sb.generate("path/to/your_storyboard_file.osb")
+```
+
+osb also supports DSL syntax.
+
+```rb
+storyboard do
+  out_path "path/to/your_storyboard_file.osb"
+
+  sprite file_path: "test.png" do
+    fade start_time: 1000, start_opacity: 1
+    
+    move start_time: 2000, start_position: [320, 640], end_position: [100, 100]
+  end
+end
 ```
 
 Full documentation is available at https://rubydoc.info/gems/osb/index.

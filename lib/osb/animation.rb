@@ -3,7 +3,7 @@
 module Osb
   # A moving image.
   class Animation
-    # @api private
+    # @private
     attr_reader :commands, :layer
     include Commandable
 

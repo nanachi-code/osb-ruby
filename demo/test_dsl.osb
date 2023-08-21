@@ -1,13 +1,16 @@
 [Events]
 //Background and Video events
-0,0,"test.png"
+
 //Storyboard Layer 0 (Background)
 Sprite,Background,Centre,"test.png"
- F,0,,1
- M,0,,320,640,100,100
-Sprite,Background,Centre,"test.png"
- F,0,,1
- M,0,,320,640,100,100
+ F,1000,,1
+ M,2000,,320,640,100,100
+ S,100,200,1,2
+ V,100,200,1,1,0.5,0.2
+ R,1000,2000,0.0,4.537856055185257
+ C,0,,255,255,0
+ P,0,1000,H
+ P,0,1000,A
 //Storyboard Layer 1 (Fail)
 
 //Storyboard Layer 2 (Pass)
@@ -18,4 +21,3 @@ Sprite,Background,Centre,"test.png"
 
 //Storyboard Sound Samples
 
-test.osb

@@ -4,21 +4,21 @@ module Osb
   module Internal
     # @param [Integer] time
     # @return [void]
-    # @api private
+    # @private
     def self.raise_if_invalid_start_time!(time)
       Internal.assert_type!(time, Integer, "start_time")
     end
 
     # @param [Integer] time
     # @return [void]
-    # @api private
+    # @private
     def self.raise_if_invalid_end_time!(time)
       Internal.assert_type!(time, Integer, "end_time")
     end
 
     # @param [Integer] easing
     # @return [void]
-    # @api private
+    # @private
     def self.raise_if_invalid_easing!(easing)
       Internal.assert_type!(easing, Integer, "easing")
       Internal.assert_value!(easing, Easing::ALL, "easing")
@@ -26,10 +26,12 @@ module Osb
   end
 
   module Commandable
+    # @private
     private def tab_level
       @is_in_trigger ? 2 : 1
     end
 
+    # @private
     private def raise_if_trigger_called!
       if @trigger_called
         raise RuntimeError, "Do not add commands after #trigger is called."
@@ -42,6 +44,7 @@ module Osb
     # @param [Integer] easing
     # @param [Numeric] start_opacity
     # @param [Numeric] end_opacity
+    # @return [void]
     def fade(
       start_time:,
       end_time: start_time,
@@ -71,6 +74,7 @@ module Osb
     # @param [Integer] easing
     # @param [Osb::Vector2, Array<Numeric>] start_position
     # @param [Osb::Vector2, Array<Numeric>] end_position
+    # @return [void]
     def move(
       start_time:,
       end_time: start_time,
@@ -84,12 +88,12 @@ module Osb
       Internal.raise_if_invalid_easing!(easing)
       Internal.assert_type!(
         start_position,
-        [Osb::Vector2, T[Array][Numeric]],
+        [Osb::Vector2, Internal::T[Array][Numeric]],
         "start_position"
       )
       Internal.assert_type!(
         end_position,
-        [Osb::Vector2, T[Array][Numeric]],
+        [Osb::Vector2, Internal::T[Array][Numeric]],
         "end_position"
       )
       if start_position.is_a?(Array)
@@ -100,8 +104,9 @@ module Osb
       tabs = " " * self.tab_level
       command =
         "#{tabs}M,#{start_time},#{end_time},#{start_position.x},#{start_position.y}"
-      command += ",#{end_position.x},#{end_position.y}" if end_position !=
-        start_position
+      if end_position != start_position
+        command += ",#{end_position.x},#{end_position.y}"
+      end
       @commands << command
     end
 
@@ -111,6 +116,7 @@ module Osb
     # @param [Integer] easing
     # @param [Numeric] start_x
     # @param [Numeric] end_x
+    # @return [void]
     def move_x(
       start_time:,
       end_time: start_time,
@@ -138,6 +144,7 @@ module Osb
     # @param [Integer] easing
     # @param [Numeric] start_y
     # @param [Numeric] end_y
+    # @return [void]
     def move_y(
       start_time:,
       end_time: start_time,
@@ -167,6 +174,7 @@ module Osb
     # @param [Integer] easing
     # @param [Numeric, Osb::Vector2, Array<Numeric>] start_scale
     # @param [Numeric, Osb::Vector2, Array<Numeric>] end_scale
+    # @return [void]
     def scale(
       start_time:,
       end_time: start_time,
@@ -180,12 +188,12 @@ module Osb
       Internal.raise_if_invalid_easing!(easing)
       Internal.assert_type!(
         start_scale,
-        [Numeric, T[Array][Numeric], Osb::Vector2],
+        [Numeric, Internal::T[Array][Numeric], Osb::Vector2],
         "start_scale"
       )
       Internal.assert_type!(
         end_scale,
-        [Numeric, T[Array][Numeric], Osb::Vector2],
+        [Numeric, Internal::T[Array][Numeric], Osb::Vector2],
         "end_scale"
       )
 
@@ -207,7 +215,6 @@ module Osb
         end
 
         start_scale = Osb::Vector2.new(start_scale) if start_scale.is_a?(Array)
-
         end_scale = Osb::Vector2.new(end_scale) if end_scale.is_a?(Array)
 
         command =
@@ -223,6 +230,7 @@ module Osb
     # @param [Integer] easing
     # @param [Float] start_angle start angle in radians.
     # @param [Float] end_angle end angle in radians.
+    # @return [void]
     def rotate(
       start_time:,
       end_time: start_time,
@@ -248,8 +256,9 @@ module Osb
     # @param [Integer] start_time
     # @param [Integer] end_time
     # @param [Integer] easing
-    # @param [Osb::Color] start_color
-    # @param [Osb::Color] end_color
+    # @param [Osb::Color, Array<Integer>] start_color
+    # @param [Osb::Color,  Array<Integer>] end_color
+    # @return [void]
     def color(
       start_time:,
       end_time: start_time,
@@ -261,8 +270,19 @@ module Osb
       Internal.raise_if_invalid_start_time!(start_time)
       Internal.raise_if_invalid_end_time!(end_time)
       Internal.raise_if_invalid_easing!(easing)
-      Internal.assert_type!(start_color, Osb::Color, "start_color")
-      Internal.assert_type!(end_color, Osb::Color, "end_color")
+      Internal.assert_type!(
+        start_color,
+        [Osb::Color, Internal::T[Array][Integer]],
+        "start_color"
+      )
+      Internal.assert_type!(
+        end_color,
+        [Osb::Color, Internal::T[Array][Integer]],
+        "end_color"
+      )
+
+      start_color = Color.new(start_color) if start_color.is_a?(Array)
+      end_color = Color.new(end_color) if end_color.is_a?(Array)
 
       end_time = "" if start_time == end_time
       tabs = " " * self.tab_level
@@ -279,6 +299,7 @@ module Osb
     # @param [Integer] end_time
     # @param [Boolean] horizontally
     # @param [Boolean] vertically
+    # @return [void]
     def flip(start_time:, end_time:, horizontally: true, vertically: false)
       self.raise_if_trigger_called!
       Internal.raise_if_invalid_start_time!(start_time)
@@ -304,6 +325,7 @@ module Osb
     # Use additive-color blending instead of alpha-blending.
     # @param [Integer] start_time
     # @param [Integer] end_time
+    # @return [void]
     def additive_color_blending(start_time:, end_time:)
       self.raise_if_trigger_called!
       Internal.raise_if_invalid_start_time!(start_time)
@@ -338,7 +360,8 @@ module Osb
     # @param [String] on indicates the trigger condition. It can be "Failing" or "Passing".
     # @param [Integer] start_time the timestamp at which the trigger becomes valid.
     # @param [Integer] end_time the timestamp at which the trigger stops being valid.
-    def trigger(on:, start_time:, end_time:)
+    # @return [void]
+    def trigger(on:, start_time:, end_time:, &blk)
       self.raise_if_trigger_called!
       Internal.raise_if_invalid_start_time!(start_time)
       Internal.raise_if_invalid_end_time!(end_time)
