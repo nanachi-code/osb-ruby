@@ -1,2 +1,4 @@
 node_modules
 *.gem
+Gemfile.lock
+package-lock.json
