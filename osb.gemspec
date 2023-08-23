@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = "osb"
-  s.version = "1.1.0"
+  s.version = "1.1.1"
   s.authors = "Dinh Vu"
   s.email = "dinhvu2509@gmail.com"
 
@@ -11,6 +11,6 @@ Gem::Specification.new do |s|
   s.license = "MIT"
   s.homepage = "https://github.com/nanachi-code/osb-ruby"
 
-  s.files = Dir["lib/**/*.rb"]
+  s.files = Dir["lib/**/*.rb", ".yardopts", "README.md"]
   s.require_paths = ["lib"]
 end
