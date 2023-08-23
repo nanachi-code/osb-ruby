@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# A number of methods have been added to the Ruby Integer class to do units conversions.
 class Integer
   # Does nothing. Just a way to tell people it's represented in milliseconds.
   # @return [Integer]

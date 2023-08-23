@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Osb
+  # Storyboard object origin enums.
   module Origin
     TopLeft = "TopLeft"
     TopCentre = "TopCentre"
@@ -16,6 +17,7 @@ module Osb
     BottomCentre = "BottomCentre"
     BottomCenter = "BottomCentre"
     BottomRight = "BottomRight"
+    # @private
     ALL = %w[
       TopLeft
       TopCentre

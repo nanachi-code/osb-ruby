@@ -6,7 +6,7 @@ module Osb
     # @private
     attr_reader :command
 
-    # @param [String] file_name location of the background image relative to the beatmap directory.
+    # @param [String] file_path location of the background image relative to the beatmap directory.
     def initialize(file_path:)
       Internal.assert_type!(file_path, String, "file_path")
       Internal.assert_file_name_ext!(file_path, %w[png jpg jpeg])

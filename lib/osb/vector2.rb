@@ -3,15 +3,14 @@
 module Osb
   # Represents a 2d point or vector.
   class Vector2
-    attr_accessor :x, :y
-    # @!attribute [rw] x
-    #   @return x coordinate of this vector
-    # @!attribute [rw] y
-    #   @return y coordinate of this vector
+    # @return [Numeric] x coordinate of this vector
+    attr_accessor :x
+    # @return [Numeric] y coordinate of this vector
+    attr_accessor :y
 
     # @param [Numeric, Array<Numeric>] x
-    #   x coordinate of this +{Vector2}+, or an +Array+ of 2 numbers.
-    # @param [Numeric] y y coordinate of this +{Vector2}+
+    #   x coordinate of this vector, or an +Array+ of 2 {Numeric} values.
+    # @param [Numeric] y y coordinate of this vector
     def initialize(x = 0, y = 0)
       Internal.assert_type!(x, [Numeric, Internal::T[Array][Numeric]], "x")
       Internal.assert_type!(y, Numeric, "y")
@@ -28,7 +27,7 @@ module Osb
       end
     end
 
-    # Add another +{Vector2}+ to this one.
+    # Add another 2d vector to this one.
     # @param [Vector2] vector
     # @return [Vector2]
     def +(vector)
@@ -36,7 +35,7 @@ module Osb
       Vector2.new(self.x + vector.x, self.y + vector.y)
     end
 
-    # Subtract another +{Vector2}+ from this one.
+    # Subtract another 2d vector from this one.
     # @param [Vector2] vector
     # @return [Vector2]
     def -(vector)
@@ -44,7 +43,7 @@ module Osb
       Vector2.new(self.x - vector.x, self.y - vector.y)
     end
 
-    # Returns whether two +{Vector2}+ are equal within tolerance
+    # Returns whether two 2d vector are equal within tolerance
     # @param [Vector2] vector
     # @return [Boolean]
     def ==(vector)
@@ -52,14 +51,14 @@ module Osb
       Math.fuzzy_equal(self.x, vector.x) && Math.fuzzy_equal(self.y, vector.y)
     end
 
-    # Returns whether two +{Vector2}+ are not equal within tolerance
+    # Returns whether two 2d vector are not equal within tolerance
     # @param [Vector2] vector
     # @return [Boolean]
     def !=(vector)
       !(self == vector)
     end
 
-    # Makes a copy of this +{Vector2}+.
+    # Makes a copy of this 2d vector.
     # @return [Vector2]
     def clone
       Vector2.new(self.x, self.y)
@@ -71,23 +70,24 @@ module Osb
       [self.x, self.y]
     end
 
-    # Returns a string representation of this +{Vector2}+.
+    # Returns a string representation of this 2d vector.
     # @return [String]
     def to_s
       self.to_a.to_s
     end
 
-    # Returns the length of this +{Vector2}+.
+    # Returns the length of this 2d vector.
     # @return [Float]
     def length
       Math.sqrt(self.x**2 + self.y**2)
     end
   end
 
-  # Create a +{Vector2}+.
+  # Create a 2d vector.
   # @param [Numeric, Array<Numeric>] x
-  #   x coordinate of this +{Vector2}+, or an +Array+ of 2 numbers.
-  # @param [Numeric] y y coordinate of this +{Vector2}+
+  #   x coordinate of this 2d vector, or an +Array+ of 2 numbers.
+  # @param [Numeric] y y coordinate of this 2d vector
+  # @return [Vector2]
   def vec2(x = 0, y = 0)
     Vector2.new(x, y)
   end

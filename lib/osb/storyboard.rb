@@ -67,9 +67,10 @@ module Osb
 
   # When designing storyboard, we often want to group storyboard elements
   # that are used in a similar context (eg. a scene), so this class' purpose
-  # is only to act as a container. You can add the elements directly to the
-  # +Osb::Storyboard+ object, but we recommend you to split the project into multiple
-  # +Osb::Group+ so it will be easier to manage.
+  # is only to act as a container. You can add every element directly to the
+  # {Osb::Storyboard} object, but we recommend you to split the project into
+  # multiple {Osb::Group} so it will be easier to manage. A {Osb::Group} can
+  # have multiple nested {Osb::Group}s in itself.
   class Group
     # @private
     attr_reader :layers
@@ -78,7 +79,7 @@ module Osb
       @layers = Internal::LayerManager.new
     end
 
-    # Add an +Osb::Sprite+, +Osb::Animation+, +Osb::Sample+ or +Osb::Group+ to
+    # Add an {Osb::Sprite}, {Osb::Animation}, {Osb::Sample} or {Group} to
     # this group.
     # @param [Osb::Group, Osb::Sprite, Osb::Animation, Osb::Sample] object
     # @return [self]
@@ -106,8 +107,9 @@ module Osb
       return self
     end
 
-    # Add an +Osb::Sprite+, +Osb::Animation+, +Osb::Sample+ or +Osb::Group+ to
-    # this group. Alias for +#add+.
+    # Alias for {#add}.
+    # Add a {Osb::Sprite}, {Osb::Animation}, {Osb::Sample} or {Group} to
+    # this group.
     # @param [Osb::Group, Osb::Sprite, Osb::Animation, Osb::Sample] object
     # @return [self]
     def <<(object)
@@ -116,8 +118,8 @@ module Osb
   end
 
   # Represent an osu! storyboard. Each sprite or animation can be added directly
-  # to the storyboard instance, or through an intermediate group. A group can
-  # have multiple nested groups in itself.
+  # to the storyboard instance, or through an intermediate group. A {Osb::Group}
+  # can have multiple nested {Osb::Group}s in itself.
   class Storyboard
     # @private
     attr_reader :layers
@@ -126,8 +128,8 @@ module Osb
       @layers = Internal::LayerManager.new
     end
 
-    # Add an +Osb::Sprite+, +Osb::Animation+, +Osb::Sample+, +Osb::Video+,
-    # +Osb::Background+ or +Osb::Group+ to this storyboard.
+    # Add a {Osb::Sprite}, {Osb::Animation}, {Osb::Sample}, {Osb::Video},
+    # {Osb::Background} or {Osb::Group} to this storyboard.
     # @param [Osb::Group, Osb::Sprite, Osb::Animation, Osb::Sample, Osb::Video,
     #         Osb::Background] object
     # @return [self]
@@ -155,8 +157,9 @@ module Osb
       return self
     end
 
-    # Add an +Osb::Sprite+, +Osb::Animation+, +Osb::Sample+, +Osb::Video+,
-    # +Osb::Background+ or +Osb::Group+ to this storyboard. Alias for +#add+.
+    # Alias for {#add}.
+    # Add a {Osb::Sprite}, {Osb::Animation}, {Osb::Sample}, {Osb::Video},
+    # {Osb::Background} or {Osb::Group} to this storyboard.
     # @param [Osb::Group, Osb::Sprite, Osb::Animation, Osb::Sample, Osb::Video,
     #         Osb::Background] object
     # @return [self]

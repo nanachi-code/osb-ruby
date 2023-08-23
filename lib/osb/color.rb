@@ -3,16 +3,17 @@
 module Osb
   # Represents an RGB color.
   class Color
-    attr_accessor :r, :g, :b
-    # @attribute [rw] r
-    #   @return Red value.
-    # @attribute [rw] g
-    #   @return Green value.
-    # @attribute [rw] b
-    #   @return Blue value.
+    # @return [Integer] Red value.
+    attr_accessor :r
+     
+    # @return [Integer] Green value.
+    attr_accessor :g
+ 
+    # @return [Integer] Blue value.
+    attr_accessor :b
 
-    # @param [Integer, String, Array<Integer>] r red value, a hex +String+, 
-    #   or an +Array+ of 3 +{Integer}+s.
+    # @param [Integer, String, Array<Integer>] r red value, a hex String, 
+    #   or an Array of 3 {Integer}s.
     # @param [Integer] g green value
     # @param [Integer] b blue value
     def initialize(r, g = nil, b = nil)
@@ -47,6 +48,7 @@ module Osb
 
     # Returns whether 2 colors are not equal.
     # @param [Color] color
+    # @return [Boolean]
     def !=(color)
       Internal.assert_type!(color, Color, "color")
 
@@ -54,9 +56,9 @@ module Osb
     end
 
     # Converts an HSL color value to RGB.
-    # @param [Integer] hue
-    # @param [Integer] saturation
-    # @param [Integer] lightness
+    # @param [Integer] h hue
+    # @param [Integer] s saturation
+    # @param [Integer] l lightness
     # @return [Color]
     def self.from_hsl(h, s, l)
       Internal.assert_type!(h, Integer, "h")
@@ -100,7 +102,7 @@ module Osb
       return p
     end
 
-    # Create a +{Color}+ object from hex string.
+    # Create a {Osb::Color} object from hex string.
     # @param [String] hex
     # @return [Color]
     def self.from_hex(hex)
@@ -112,9 +114,9 @@ module Osb
     end
   end
 
-  # Create a new rgb +{Color}+.
-  # @param [Integer, String, Array<Integer>] r red value, a hex +String+, 
-  #   or an +Array+ of 3 +{Integer}+s.
+  # Create a new rgb {Osb::Color}.
+  # @param [Integer, String, Array<Integer>] r red value, a hex String, 
+  #   or an Array of 3 {Integer}s.
   # @param [Integer] g green value
   # @param [Integer] b blue value
   # @return [Color]
@@ -122,10 +124,10 @@ module Osb
     Color.new(r, g, b)
   end
 
-  # Create a new hsl +{Color}+.
-  # @param [Integer] hue
-  # @param [Integer] saturation
-  # @param [Integer] lightness
+  # Create a new hsl {Osb::Color}.
+  # @param [Integer] h hue
+  # @param [Integer] s saturation
+  # @param [Integer] l lightness
   # @return [Color]
   def hsl(h, s, l)
     Color.from_hsl(h, s, l)

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Osb
+  # Easing enums.
   module Easing
     Linear = 0
     Out = 1
@@ -37,6 +38,7 @@ module Osb
     InBounce = 32
     OutBounce = 33
     InOutBounce = 34
+    # @private
     ALL = 0..34
   end
 end

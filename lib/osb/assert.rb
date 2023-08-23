@@ -31,7 +31,6 @@ module Osb
     end
 
     # @private
-    # @type [Hash{Class => Hash{Class => Object}}]
     T = {
       Array => {
         Numeric => TypedArray.new(Numeric),

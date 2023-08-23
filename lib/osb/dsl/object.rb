@@ -105,7 +105,7 @@ module Osb
   end
 
   # Set the background image for the beatmap.
-  # @param [String] file_name location of the background image relative to the beatmap directory.
+  # @param [String] file_path location of the background image relative to the beatmap directory.
   # @return [void]
   def background(file_path:)
     self.raise_unless_inside_storyboard!
@@ -114,7 +114,7 @@ module Osb
   end
 
   # Set the video for the beatmap.
-  # @param [String] file_name location of the video file relative to the beatmap directory.
+  # @param [String] file_path location of the video file relative to the beatmap directory.
   # @param [Integer] start_time when the video starts.
   # @return [void]
   def video(file_path:, start_time:)
