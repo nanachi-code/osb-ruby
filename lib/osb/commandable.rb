@@ -63,7 +63,7 @@ module Osb
 
       end_time = "" if start_time == end_time
       tabs = " " * self.tab_level
-      command = "#{tabs}F,#{start_time},#{end_time},#{start_opacity}"
+      command = "#{tabs}F,#{easing},#{start_time},#{end_time},#{start_opacity}"
       command += ",#{end_opacity}" if end_opacity != start_opacity
       @commands << command
     end
@@ -103,7 +103,7 @@ module Osb
       end_time = "" if start_time == end_time
       tabs = " " * self.tab_level
       command =
-        "#{tabs}M,#{start_time},#{end_time},#{start_position.x},#{start_position.y}"
+        "#{tabs}M,#{easing},#{start_time},#{end_time},#{start_position.x},#{start_position.y}"
       if end_position != start_position
         command += ",#{end_position.x},#{end_position.y}"
       end
@@ -133,7 +133,7 @@ module Osb
 
       end_time = "" if start_time == end_time
       tabs = " " * self.tab_level
-      command = "#{tabs}MX,#{start_time},#{end_time},#{start_x}"
+      command = "#{tabs}MX,#{easing},#{start_time},#{end_time},#{start_x}"
       command += ",#{end_x}" if end_x
       @commands << command
     end
@@ -161,7 +161,7 @@ module Osb
 
       end_time = "" if start_time == end_time
       tabs = " " * self.tab_level
-      command = "#{tabs}MY,#{start_time},#{end_time},#{start_y}"
+      command = "#{tabs}MY,#{easing},#{start_time},#{end_time},#{start_y}"
       command += ",#{end_y}" if end_y != start_y
       @commands << command
     end
@@ -205,7 +205,7 @@ module Osb
           raise InvalidValueError,
                 "start_scale and end_scale must be either both Numeric values or Vector2-like values."
         end
-        command = "#{tabs}S,#{start_time},#{end_time},#{start_scale}"
+        command = "#{tabs}S,#{easing},#{start_time},#{end_time},#{start_scale}"
         command += ",#{end_scale}" if end_scale != start_scale
         @commands << command
       else
@@ -218,7 +218,7 @@ module Osb
         end_scale = Osb::Vector2.new(end_scale) if end_scale.is_a?(Array)
 
         command =
-          "#{tabs}V,#{start_time},#{end_time},#{start_scale.x},#{start_scale.y}"
+          "#{tabs}V,#{easing},#{start_time},#{end_time},#{start_scale.x},#{start_scale.y}"
         command += ",#{end_scale.x},#{end_scale.y}" if end_scale
         @commands << command
       end
@@ -247,7 +247,7 @@ module Osb
 
       end_time = "" if start_time == end_time
       tabs = " " * self.tab_level
-      command = "#{tabs}R,#{start_time},#{end_time},#{start_angle}"
+      command = "#{tabs}R,#{easing},#{start_time},#{end_time},#{start_angle}"
       command += ",#{end_angle}" if end_angle != start_angle
       @commands << command
     end
@@ -287,7 +287,7 @@ module Osb
       end_time = "" if start_time == end_time
       tabs = " " * self.tab_level
       command =
-        "#{tabs}C,#{start_time},#{end_time},#{start_color.r},#{start_color.g},#{start_color.b}"
+        "#{tabs}C,#{easing},#{start_time},#{end_time},#{start_color.r},#{start_color.g},#{start_color.b}"
       if end_color != start_color
         command += ",#{end_color.r},#{end_color.g},#{end_color.b}"
       end

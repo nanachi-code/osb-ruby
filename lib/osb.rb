@@ -20,7 +20,7 @@ require_relative "osb/dsl/object"
 require_relative "osb/dsl/commands"
 
 module Osb
-  VERSION = "1.1.2"
+  VERSION = "1.1.3"
 end
 
 # Extend the main object with the DSL commands.
